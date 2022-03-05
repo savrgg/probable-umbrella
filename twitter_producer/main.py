@@ -24,8 +24,7 @@ topic_path = 'projects/sonorous-guide-343021/topics/bitcoin-sentiment'
 
 
 # Load in a json file with your Tweepy API credentials
-with open("./basic.json") as json_data:
-    account_data = json.load(json_data)
+account_data = json.loads(os.environ('BASICJSON'))
 
 # Select the account you want to listen with
 auth = tweepy.OAuthHandler(os.getenv('CONSUMER_KEY'), os.getenv('CONSUMER_SECRET'))
