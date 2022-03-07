@@ -8,7 +8,6 @@ import os
 from dotenv import load_dotenv
 import sys
 
-load_dotenv()
 # coding: utf-8
 import datetime
 import json
@@ -20,33 +19,44 @@ from tweepy.streaming import StreamListener
 
 # Config
 publisher = pubsub_v1.PublisherClient()
-topic_path = os.getenv('TOPIC_PATH')
+
 
 
 # Load in a json file with your Tweepy API credentials
 
 try:
+    # local
+    load_dotenv(".env")
     with open("./basic.json") as json_data:
         account_data = json.load(json_data)
+    topic_path = os.getenv('TOPIC_PATH')
+    consumer_key = os.getenv('CONSUMER_KEY')
+    consumer_secret = os.getenv('CONSUMER_SECRET')
+    access_token = os.getenv('ACCESS_TOKEN')
+    token_secret = os.getenv('TOKEN_SECRET')
 except:
-    print("")
-print("1.. " + str(account_data))
+    print("fallo local")
 
 try:
+    # github
     account_data = json.loads(os.environ('BASICJSON'))
+    topic_path = os.environ("TOPIC_PATH")
+    consumer_key = os.environ('CONSUMER_KEY')
+    consumer_secret = os.environ('CONSUMER_SECRET')
+    access_token = os.environ('ACCESS_TOKEN')
+    token_secret = os.environ('TOKEN_SECRET')
 except:
-    print("Se leyo de ambiente GCP")
-print("2.. " + str(account_data))
+    print("fallo github")
 
 try:
+    # azure
     account_data = json.loads(os.environ.get('BASICJSON'))
 except:
-    print("Se leyó de ambiente Github")
-print("3.. " + str(account_data))
+    print("fallo azure")
 
 # Select the account you want to listen with
-auth = tweepy.OAuthHandler(os.getenv('CONSUMER_KEY'), os.getenv('CONSUMER_SECRET'))
-auth.set_access_token(os.getenv('ACCESS_TOKEN'), os.getenv('TOKEN_SECRET'))
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, token_secret)
 
 api = tweepy.API(auth, wait_on_rate_limit=True)
 
