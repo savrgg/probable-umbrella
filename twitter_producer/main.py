@@ -20,20 +20,29 @@ from tweepy.streaming import StreamListener
 
 # Config
 publisher = pubsub_v1.PublisherClient()
-topic_path = 'projects/sonorous-guide-343021/topics/bitcoin-sentiment'
+topic_path = os.getenv('TOPIC_PATH')
 
 
 # Load in a json file with your Tweepy API credentials
 
 try:
-  account_data = json.loads(os.environ('BASICJSON'))
+    with open("./basic.json") as json_data:
+        account_data = json.load(json_data)
 except:
-  print("Se leyo de ambiente GCP")
+    print("")
+print("1.. " + str(account_data))
 
 try:
-  account_data = json.loads(os.environ.get('BASICJSON'))
+    account_data = json.loads(os.environ('BASICJSON'))
 except:
-  print("Se leyó de ambiente Github")
+    print("Se leyo de ambiente GCP")
+print("2.. " + str(account_data))
+
+try:
+    account_data = json.loads(os.environ.get('BASICJSON'))
+except:
+    print("Se leyó de ambiente Github")
+print("3.. " + str(account_data))
 
 # Select the account you want to listen with
 auth = tweepy.OAuthHandler(os.getenv('CONSUMER_KEY'), os.getenv('CONSUMER_SECRET'))
