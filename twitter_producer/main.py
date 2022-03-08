@@ -17,9 +17,9 @@ import tweepy
 from google.cloud import pubsub_v1
 from tweepy.streaming import StreamListener
 
-# Load in a json file with your Tweepy API credentials
-try:
-    # local
+def load_local():
+    a = 1
+    print("1.Entro local")
     load_dotenv(".env")
     with open("./basic.json") as json_data:
         account_data = json.load(json_data)
@@ -27,31 +27,51 @@ try:
     consumer_secret = os.getenv('CONSUMER_SECRET')
     access_token = os.getenv('ACCESS_TOKEN')
     token_secret = os.getenv('TOKEN_SECRET')
-    topic_path = os.getenv('TOPIC_PATH')    
-except:
-    print("fallo local")
+    topic_path = os.getenv('TOPIC_PATH') 
+    return a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret
 
-try:
-    # github
+def load_github():
+    a = 2
+    print("2.Entro github")
     account_data = json.loads(os.environ('BASICJSON'))
     topic_path = os.environ("TOPIC_PATH")
     consumer_key = os.environ('CONSUMER_KEY')
     consumer_secret = os.environ('CONSUMER_SECRET')
     access_token = os.environ('ACCESS_TOKEN')
     token_secret = os.environ('TOKEN_SECRET')
-except:
-    print("fallo github")
-try:
+    return a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret
+
+def load_azure():
     # azure
+    a = 3
+    print("3.Entro azure")
     account_data = json.loads(os.environ.get('BASICJSON'))
     topic_path = os.environ.get("TOPIC_PATH")
     consumer_key = os.environ.get('CONSUMER_KEY')
     consumer_secret = os.environ.get('CONSUMER_SECRET')
     access_token = os.environ.get('ACCESS_TOKEN')
     token_secret = os.environ.get('TOKEN_SECRET')
-except:
-    print("fallo azure")
+    return a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret
 
+# Load in a json file with your Tweepy API credentials
+try:
+    # local
+    a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret = load_local()
+except:
+    print("1.")
+
+try:
+    # github
+    a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret= load_github()
+except:
+    print("2.")
+try:
+    # azure
+    a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret = load_azure()
+except:
+    print("3.")
+
+print(a)
 # Config
 publisher = pubsub_v1.PublisherClient()
 
