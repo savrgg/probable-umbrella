@@ -41,15 +41,14 @@ try:
     token_secret = os.environ('TOKEN_SECRET')
 except:
     print("fallo github")
+try:
+    # azure
+    account_data = json.loads(os.environ.get('BASICJSON'))
     topic_path = os.environ.get("TOPIC_PATH")
     consumer_key = os.environ.get('CONSUMER_KEY')
     consumer_secret = os.environ.get('CONSUMER_SECRET')
     access_token = os.environ.get('ACCESS_TOKEN')
     token_secret = os.environ.get('TOKEN_SECRET')
-try:
-    # azure
-    account_data = json.loads(os.environ.get('BASICJSON'))
-
 except:
     print("fallo azure")
 
