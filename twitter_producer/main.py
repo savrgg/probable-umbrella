@@ -55,22 +55,15 @@ def load_azure():
 
 # Load in a json file with your Tweepy API credentials
 try:
-    # local
-    a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret = load_local()
-except:
-    print("1.")
-
-try:
-    # github
-    a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret= load_github()
-except:
-    print("2.")
-try:
-    # azure
     a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret = load_azure()
 except:
-    print("3.")
-
+    try:
+        a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret= load_github()
+    except:
+        try:
+            a, account_data, topic_path, consumer_key, consumer_secret, access_token, token_secret = load_local()
+        except:
+            print("no hay env vars")
 print(a)
 # Config
 publisher = pubsub_v1.PublisherClient()
