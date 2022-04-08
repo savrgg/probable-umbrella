@@ -9,12 +9,10 @@ from sklearn import metrics
 from sklearn.model_selection import cross_validate
 from sklearn.metrics import precision_score,log_loss
 
+data_bitcoin = pd.read_csv('clean_model.csv')
 
-data_bitcoin = pd.read_csv('../data/clean_model.csv')
-
-
-X=data_bitcoin.iloc[:, 9:11]
-Y=data_bitcoin['up_down']
+X = data_bitcoin.iloc[:, 9:11]
+Y = data_bitcoin['up_down']
 
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
 

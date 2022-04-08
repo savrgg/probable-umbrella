@@ -1,12 +1,13 @@
 FROM python:3.7-slim-buster
 
-WORKDIR /app
+WORKDIR /src
 
 COPY requirements.txt requirements.txt
+COPY models/clean_model.csv clean_model.csv
 
 RUN pip3 install -r requirements.txt
 
 COPY . . 
 
-CMD [ "python3", "twitter_producer/main.py"]
+CMD [ "python3", "models/final_model.py"]
 
